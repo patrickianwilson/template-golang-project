@@ -1,3 +1,3 @@
-source project-bash.sh
+. project-bash.sh
 
 go get github.com/mailgun/godebug
