@@ -3,13 +3,19 @@
 OS=`uname`
 
 if [ "$OS"="Darwin" ] ; then 
-		#Ensure HomeBrew is installed.  This is the package manager of choice for Mac OS
-	command -v brew >/dev/null 2>&1 || { 
-		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	}
 
-	#Is Go already installed?
-	command -v go >/dev/null 2>&1 || { echo >&2 "Installing Go from Homebrew"; brew install go --cross-compile-common; exit 1; }
+	#install gvm
+	command -v gvm >/dev/null 2>&1 || { echo >&2 "Installing GVM for better management of Go Versions" 
+
+		bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+		source ~/.gvm/scripts/gvm
+
+		#create the compile directory
+		gvm install go1.4
+		gvm use go1.4  #needed as go1.5 needs to be compiled with go1.4.
+		gvm install go1.5
+		gvm use go1.5
+	}
 
 	#Sublime is the editor of choice for Golang programmers.
 	command -v subl >/dev/null 2>&1 || { 
@@ -23,11 +29,6 @@ else
 			
 	#Ensure API is installed.  This is the package manager we support
 	command -v apt-get >/dev/null 2>&1 || { echo >&2 "Aptitude is required for these setup scripts but it's not installed.  Aborting."; exit 1; }
-
-
-	#Is Go already installed?
-	command -v go >/dev/null 2>&1 || { echo >&2 "Installing Go from Aptitude";sudo apt-get install golang; exit 1; }
-
 
 	#install gvm
 	command -v gvm >/dev/null 2>&1 || { echo >&2 "Installing GVM for better management of Go Versions" 
