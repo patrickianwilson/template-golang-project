@@ -1,5 +1,5 @@
 #!/bin/bash
-. project-bash.sh
+./project-developer-setup.sh
 
 go get github.com/gorilla/mux
 go get github.com/mailgun/godebug
