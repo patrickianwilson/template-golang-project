@@ -1,0 +1,7 @@
+apply from: "$rootProject.projectDir/config/gradle/golang/docker.gradle"
+
+ext {
+	dockerTag = "helloservice:latest"
+    dockerFile = "$projectDir/Dockerfile"
+    dockerWorkingDir = "$projectDir"
+}
