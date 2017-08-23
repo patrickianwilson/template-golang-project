@@ -1,0 +1,6 @@
+ext {
+    mainPackage="hello"
+    //runArgs = ["hello world"]
+}
+
+apply from: "${project.rootProject.projectDir}/config/gradle/golang/golang-conventions.gradle"
