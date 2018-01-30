@@ -15,13 +15,10 @@ How To Use This Template
 3. Install Delve (for Debugging)
     - Instructions [Here](https://github.com/derekparker/delve/tree/master/Documentation/installation)
     - Pay close attention to the details because this is a little sketchy.
-   
+  
+    
+## To Build
 
-4. Set your ```GOPATH``` variable to the /Service directory.
-    - ```cd ./Service```
-    - ```export GOPATH=$GOPATH:`pwd` ```
-    - ```export PATH=$PATH:$GOPATH/bin``` needed to get tools fetched via ```go get``` onto your path
-    
-5. Build and Run the project with 
-    - ```go build main && ./main```
-    
+```
+./gradlew release
+```

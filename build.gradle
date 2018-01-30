@@ -1,6 +1,19 @@
 ext {
-    mainPackage="hello"
-    //runArgs = ["hello world"]
+    rootPackage=""
+}
+project.version = 'dev.1'
+project.group = "com.github.patrickianwilson"
+
+buildscript {
+    repositories {
+        maven {
+            url "http://repo.wilsonsinquest.com/nexus/content/repositories/releases/"
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.github.patrickianwilson:ProjectConventionsGradlePlugin:1.0.+"
+    }
 }
 
-apply from: "${project.rootProject.projectDir}/config/gradle/golang/golang-conventions.gradle"
+apply plugin: "project.go"
