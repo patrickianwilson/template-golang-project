@@ -16,6 +16,11 @@ How To Use This Template
     - Instructions [Here](https://github.com/derekparker/delve/tree/master/Documentation/installation)
     - Pay close attention to the details because this is a little sketchy.
   
+## To Setup Swagger Settings
+This template assumes that the service you are generating an SDK for is running locally at port 8080.  This can be configured.  The config codegen file will specify the default base url of the running production service whereas the refresh-api.sh file requires the URL of the service you wish to use to generate the SDK. 
+1. Modify ```./config/codegen-go-config.json``` file to specify the correct service url and package settings.
+
+2. Review ```refresh-api.sh``` file settings to be sure they match your service.  
     
 ## To Build
 
