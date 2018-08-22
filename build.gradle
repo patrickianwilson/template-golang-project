@@ -1,5 +1,8 @@
 ext {
-    rootPackage=""
+    mainJsPackage="github.com/patrickianwilson/client"
+
+    mainPackage = "github.com/patrickianwilson/server"
+    platformTargets = ["linux:amd64"]
 }
 project.version = 'dev.1'
 project.group = "com.github.patrickianwilson"
@@ -9,6 +12,7 @@ buildscript {
         maven {
             url "http://repo.wilsonsinquest.com/nexus/content/repositories/releases/"
         }
+        mavenLocal()
         mavenCentral()
     }
     dependencies {
@@ -16,4 +20,12 @@ buildscript {
     }
 }
 
+apply plugin: "project.gopherjs"
 apply plugin: "project.go"
+
+task copyAssets(type: Copy) {
+    from "${projectDir}/assets"
+    into "${buildDir}/gopath/assets"
+}
+
+tasks.assembleGoJs.dependsOn("copyAssets")
