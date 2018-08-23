@@ -3,6 +3,12 @@ ext {
 
     mainPackage = "github.com/patrickianwilson/server"
     platformTargets = ["linux:amd64"]
+
+    moduleName = "template-golang-project"  //changeme!
+
+    dockerTag = "${project.moduleName.toLowerCase()}:latest"
+    dockerFile = "$projectDir/Dockerfile"
+    dockerImagePath="us.gcr.io/inlaid-citron-94802/services/${project.moduleName.toLowerCase()}:${project.version}"
 }
 project.version = 'dev.1'
 project.group = "com.github.patrickianwilson"
@@ -16,16 +22,35 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.github.patrickianwilson:ProjectConventionsGradlePlugin:1.0.+"
+        classpath "com.github.patrickianwilson:ProjectConventionsGradlePlugin:dev.1"
     }
+}
+
+if (System.getenv("BUILD_NUMBER") != null) {
+    def majorVersion = "1.0" //eventually override with a lookup
+    def buildSetVersion = "0" //eventually look this up too.
+    project.version = "${majorVersion}.${buildSetVersion}.${System.getenv("BUILD_NUMBER")}"
 }
 
 apply plugin: "project.gopherjs"
 apply plugin: "project.go"
+apply plugin: "facet.docker"
 
-task copyAssets(type: Copy) {
+task copyWebAssets(type: Copy) {
     from "${projectDir}/assets"
     into "${buildDir}/gopath/assets"
 }
 
-tasks.assembleGoJs.dependsOn("copyAssets")
+tasks.assembleGoJs.dependsOn("copyWebAssets")
+tasks.assembleDockerImage.dependsOn(["copyWebAssets", "assembleGolinuxamd64"])
+//
+//task configureZip {
+//    finalizedBy distZip
+//    doLast {
+//        distZip.archiveName = "${moduleName}.zip"
+//        startScripts.applicationName = "${moduleName}"
+//    }
+//}
+//
+//
+//release.dependsOn "configureZip"
