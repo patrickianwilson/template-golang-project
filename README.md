@@ -62,7 +62,7 @@ Promote your module by running BrightStar:
 
 ```
 
-project module promote --configProperties promotionconfig.properties --name <module name> --majorVersion <major version> --template cardinal-app
+project module promote --configProperties promotionconfig.properties --name <module name> --majorVersion <major version> --template cardinal-service
 
 
 ```

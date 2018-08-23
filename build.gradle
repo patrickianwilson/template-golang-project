@@ -22,7 +22,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.github.patrickianwilson:ProjectConventionsGradlePlugin:dev.1"
+        classpath "com.github.patrickianwilson:ProjectConventionsGradlePlugin:1.0.+"
     }
 }
 
