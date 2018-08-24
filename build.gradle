@@ -1,3 +1,12 @@
+project.version = 'dev.1'
+project.group = "com.github.patrickianwilson"
+
+if (System.getenv("BUILD_NUMBER") != null) {
+    def majorVersion = "1.0" //eventually override with a lookup
+    def buildSetVersion = "0" //eventually look this up too.
+    project.version = "${majorVersion}.${buildSetVersion}.${System.getenv("BUILD_NUMBER")}"
+}
+
 ext {
     mainJsPackage="github.com/patrickianwilson/client"
 
@@ -10,8 +19,6 @@ ext {
     dockerFile = "$projectDir/Dockerfile"
     dockerImagePath="us.gcr.io/inlaid-citron-94802/services/${project.moduleName.toLowerCase()}:${project.version}"
 }
-project.version = 'dev.1'
-project.group = "com.github.patrickianwilson"
 
 buildscript {
     repositories {
@@ -26,11 +33,7 @@ buildscript {
     }
 }
 
-if (System.getenv("BUILD_NUMBER") != null) {
-    def majorVersion = "1.0" //eventually override with a lookup
-    def buildSetVersion = "0" //eventually look this up too.
-    project.version = "${majorVersion}.${buildSetVersion}.${System.getenv("BUILD_NUMBER")}"
-}
+
 
 apply plugin: "project.gopherjs"
 apply plugin: "project.go"
@@ -43,6 +46,7 @@ task copyWebAssets(type: Copy) {
 
 tasks.assembleGoJs.dependsOn("copyWebAssets")
 tasks.assembleDockerImage.dependsOn(["copyWebAssets", "assembleGolinuxamd64"])
+tasks.assembleDockerImageRemote.dependsOn(["copyWebAssets", "assembleGolinuxamd64"])
 //
 //task configureZip {
 //    finalizedBy distZip
