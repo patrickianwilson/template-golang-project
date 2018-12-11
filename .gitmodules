@@ -1,0 +1,6 @@
+[submodule "src/vendor/github.com/gopherjs/gopherjs"]
+	path = src/vendor/github.com/gopherjs/gopherjs
+	url = https://github.com/gopherjs/gopherjs
+[submodule "src/vendor/github.com/gorilla/mux"]
+	path = src/vendor/github.com/gorilla/mux
+	url = https://github.com/gorilla/mux

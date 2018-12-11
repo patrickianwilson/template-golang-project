@@ -9,7 +9,6 @@ if (System.getenv("BUILD_NUMBER") != null) {
 
 ext {
     mainJsPackage="github.com/patrickianwilson/client"
-
     mainPackage = "github.com/patrickianwilson/server"
     platformTargets = ["linux:amd64"]
 

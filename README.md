@@ -9,14 +9,25 @@ How To Use This Template
 2. Install Go Verion >1.7.3
     - ```gvm install go1.4``` needed to build >1.4 versions
     - ```gvm use 1.4```
-    - ```gvm install go1.10``` (or later)
-    - ```gvm use 1.10``` (needed to run gopherjs compiler)
+    - ```gvm install go1.11``` (or later)
+    - ```gvm use 1.11``` (needed to run gopherjs compiler)
 
+
+3. Install GopherJs (for javascript cross compiling)
+    - ```go get -u github.com/gopherjs/gopherjs``` 
 
 3. Install Delve (for Debugging)
     - Instructions [Here](https://github.com/derekparker/delve/tree/master/Documentation/installation)
     - Pay close attention to the details because this is a little sketchy.
-  
+
+## To Checkout
+
+```
+project module checkout --name GodsAgesWebApp --majorVersion 1.0
+cd modules/GodsAgesWebApp
+git submodule update --init --recursive
+
+```
     
 ## To Build
 
