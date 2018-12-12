@@ -35,6 +35,11 @@ git submodule update --init --recursive
 ./gradlew release
 ```
 
+If you want to continuously test your changes you can run gradle in continuous mode:
+
+```
+./gradlew pkg --continuous
+```
 ## To Run Locally
 
 This template can be run locally by changing to the build/gopath directory and running your main package in the bin directory.  The CWD should be the gopath root to ensure assets can be located properly.
@@ -42,9 +47,9 @@ This template can be run locally by changing to the build/gopath directory and r
 Here is a quick example
 
 ```
-cd build/gopath
+cd build
 
-./bin/server
+./linuxamd64/bin/server
 
 ```
 

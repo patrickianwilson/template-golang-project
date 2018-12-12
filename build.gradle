@@ -40,7 +40,8 @@ apply plugin: "facet.docker"
 
 task copyWebAssets(type: Copy) {
     from "${projectDir}/assets"
-    into "${buildDir}/gopath/assets"
+    from "${buildDir}/web/main.js"
+    into "${buildDir}/assets"
 }
 
 tasks.assembleGoJs.dependsOn("copyWebAssets")
