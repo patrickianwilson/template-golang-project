@@ -16,4 +16,8 @@ buildscript {
     }
 }
 
+ext {
+   moduleName = "template-golang-project" //change me!!
+}
+
 apply plugin: "project.go"
