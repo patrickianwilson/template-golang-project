@@ -1,12 +1,9 @@
 package router
 
 import (
-	"github.com/patrickianwilson/logging"
-	"log"
-	"net/http"
-	"os"
-
 	"github.com/gorilla/mux"
+	"github.com/patrickianwilson/logging"
+	"net/http"
 )
 
 const (
@@ -31,14 +28,6 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(logging.Logger(route.HandlerFunc, route.Name))
 	}
-
-	pwd, _ := os.Getwd()
-
-	log.Printf("Serving Static Resources from path: %s", pwd+STATIC_DIR)
-
-	router.
-		PathPrefix(STATIC_PATH).
-		Handler(http.StripPrefix(STATIC_PATH, http.FileServer(http.Dir(pwd+STATIC_DIR))))
 
 	return router
 }
