@@ -1,0 +1,14 @@
+{{ define "layout"}}
+<html>
+<head>
+    <link href="/static/theme.css" rel="stylesheet"/>
+    <title>Template HTML Page!</title>
+</head>
+<body>
+<h1>Welcome {{.Name}}</h1>
+<p>
+    {{ template "content-section" }}
+</p>
+</body>
+</html>
+{{ end }}
