@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.github.patrickianwilson:GoWebAppTemplateManager:1.0.+"
+   
 }
 
 
