@@ -1,9 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/patrickianwilson/hello/lib"
+)
 
 func main() {
-	fmt.Printf("hello, world\n")
-	_ = "breakpoint" //this is a "godebug" breakpoint.
-	fmt.Printf("After Breakpoint")
+	fmt.Println(lib.SayHello())
 }

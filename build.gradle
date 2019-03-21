@@ -1,23 +1,44 @@
-ext {
-    rootPackage=""
-}
 project.version = 'dev.1'
 project.group = "com.github.patrickianwilson"
 
 buildscript {
     repositories {
         maven {
-            url "http://repo.wilsonsinquest.com/nexus/content/repositories/releases/"
+            url "http://repository.inquestdevops.com/repository/inquest-oss-releases/"
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
         }
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
-        classpath "com.github.patrickianwilson:ProjectConventionsGradlePlugin:1.0.+"
+        classpath "com.inquestdevops:WarblerBuildGradlePlugin:1.0.+"
+        classpath "com.inquestdevops:WarblerPublishGradlePlugin:1.0.+"
     }
 }
 
 ext {
-   moduleName = "template-golang-project" //change me!!
+    moduleName = "template-golang-project" //change me!!
+    rootPackage = ""
+    mainPackage = "github.com/patrickianwilson/server"
+    platformTargets = ["linux:amd64","darwin:amd64"]
+    testPackages = ["github.com/patrickianwilson/lib"] //change me!
+
 }
 
 apply plugin: "project.go"
+apply plugin: "publish.maven"
+
+repositories {
+    maven {
+        url "http://repository.inquestdevops.com/repository/inquest-oss-releases/"
+    }
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+
+}
+
