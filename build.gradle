@@ -24,7 +24,7 @@ ext {
     mainPackage = "github.com/patrickianwilson/server"
     platformTargets = ["linux:amd64","darwin:amd64"]
     testPackages = ["github.com/patrickianwilson/controllers"] //change me!
-    dockerTag = "civitas-app:latest"
+    dockerTag = "${moduleName.toLowerCase()}:latest"
     dockerFile = "deploy/Dockerfile"
     dockerImagePath="us.gcr.io/inlaid-citron-94802/services/${moduleName.toLowerCase()}:${version}"
 }
