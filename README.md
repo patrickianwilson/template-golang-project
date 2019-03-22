@@ -1,7 +1,7 @@
 How To Use This Template
 ========================
 
-##Local Developer Setup
+## Local Developer Setup
 
 This template is designed to be a starting point for GoLang development.  
 There are different flavors of go projects on the different branches.  
