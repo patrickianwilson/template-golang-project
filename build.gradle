@@ -1,6 +1,3 @@
-project.version = 'dev.1'
-project.group = "com.github.patrickianwilson"
-
 buildscript {
     repositories {
         maven {
@@ -18,13 +15,22 @@ buildscript {
     }
 }
 
+project.version = 'dev.1'
+project.group = "com.github.patrickianwilson"
+
+if (System.getenv("BUILD_NUMBER") != null) {
+    def majorVersion = "1.0" //eventually override with a lookup
+    def buildStream = "0"
+    project.version = "${majorVersion}.${buildStream}.${System.getenv("BUILD_NUMBER")}"
+}
+
 ext {
     moduleName = "template-golang-project" //change me!!
     rootPackage = ""
-    mainPackage = "github.com/patrickianwilson/server"
+    mainPackage = "github.com/patrickianwilson/hello"
     platformTargets = ["linux:amd64","darwin:amd64"]
-    testPackages = ["github.com/patrickianwilson/lib"] //change me!
-
+    testPackages = ["github.com/patrickianwilson/hello/lib"] //change me!
+    projectType = "copySrc"
 }
 
 apply plugin: "project.go"
