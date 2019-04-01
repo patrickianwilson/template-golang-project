@@ -26,7 +26,7 @@ if (System.getenv("BUILD_NUMBER") != null) {
 
 ext {
     moduleName = "template-golang-project" //change me!!
-    libPath = "github.com/InquestDevops/"
+    libPath = "github.com/InquestDevops/" //change me!!
     testPackages = [] //change me!
     projectType = "copySrc"
 }

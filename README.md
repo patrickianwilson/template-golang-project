@@ -30,6 +30,13 @@ now ensure your GOPATH variable is set to the module root, and simply run ```gov
 
 You can add any additional dependencies via ```govendor fetch <dep>```
 
+## To Generate Client
+
+There is a shell script `refresh-api.sh` which needs some service specific modifications.
+
+Update the values for the $GROUP_ID, $SERVICE_ID and $WS_URL variables.  Then run `./refresh-api`.  The script will
+download the generator automatically from Maven and generate the client SDK.
+
 ##To Build
 
 1. Install GVM
