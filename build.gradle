@@ -27,9 +27,9 @@ if (System.getenv("BUILD_NUMBER") != null) {
 ext {
     moduleName = "template-golang-project" //change me!!
     rootPackage = ""
-    mainPackage = "github.com/patrickianwilson/hello"
+    mainPackage = "github.com/patrickianwilson/cli/hello"
     platformTargets = ["linux:amd64","darwin:amd64"]
-    testPackages = ["github.com/patrickianwilson/hello/lib"] //change me!
+    testPackages = [] //change me!
     projectType = "copySrc"
 }
 
