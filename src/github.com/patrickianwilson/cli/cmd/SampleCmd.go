@@ -10,6 +10,7 @@ import (
 type SampleCmd struct {
 	flagSet *flag.FlagSet
 	context *common.Context
+	profile string  //needed to allow --profile to be passed - not used in this command directly
 	name    string
 }
 
@@ -24,7 +25,7 @@ func (*SampleCmd) GetCmdGroup() string {
 func (cmd *SampleCmd) Init(args []string, context *common.Context) error {
 	cmd.context = context
 	cmd.flagSet = flag.NewFlagSet("module-checkout", flag.ContinueOnError)
-
+	cmd.flagSet.StringVar(&cmd.profile, "profile", "default", "The config profile to use")
 	cmd.flagSet.StringVar(&cmd.name, "name", "", "The name of the thing")
 	cmd.flagSet.Parse(args)
 	return nil
