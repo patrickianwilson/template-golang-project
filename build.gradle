@@ -15,15 +15,6 @@ buildscript {
     }
 }
 
-project.version = 'dev.1'
-project.group = "com.github.patrickianwilson"
-
-if (System.getenv("BUILD_NUMBER") != null) {
-    def majorVersion = "1.0" //eventually override with a lookup
-    def buildStream = "0"
-    project.version = "${majorVersion}.${buildStream}.${System.getenv("BUILD_NUMBER")}"
-}
-
 ext {
     moduleName = "template-golang-project" //change me!!
     libPath = "github.com/InquestDevops/" //change me!!
@@ -33,6 +24,16 @@ ext {
 
 apply plugin: "project.go"
 apply plugin: "publish.maven"
+
+//these NEED to be defined AFTER the project.go plugin
+project.version = 'dev.1'
+project.group = "com.github.patrickianwilson"
+
+if (System.getenv("BUILD_NUMBER") != null) {
+    def majorVersion = "1.0" //eventually override with a lookup
+    def buildStream = "0"
+    project.version = "${majorVersion}.${buildStream}.${System.getenv("BUILD_NUMBER")}"
+}
 
 repositories {
     maven {
