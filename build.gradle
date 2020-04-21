@@ -1,5 +1,3 @@
-project.version = 'dev.1'
-project.group = "com.github.patrickianwilson"
 
 if (System.getenv("BUILD_NUMBER") != null) {
     def majorVersion = "1.0" //eventually override with a lookup
@@ -19,24 +17,32 @@ ext {
     dockerImagePath="us.gcr.io/inlaid-citron-94802/services/${project.moduleName.toLowerCase()}:${project.version}"
 }
 
+project.version = 'dev.1'
+project.group = "com.github.patrickianwilson"
 buildscript {
     repositories {
         maven {
-            url "http://repo.wilsonsinquest.com/nexus/content/repositories/releases/"
+            url "http://repository.inquestdevops.com/repository/inquest-oss-releases/"
         }
-        mavenLocal()
         mavenCentral()
     }
     dependencies {
-        classpath "com.github.patrickianwilson:ProjectConventionsGradlePlugin:1.0.+"
+        classpath "com.inquestdevops:WarblerBuildGradlePlugin:1.0.+"
+        classpath "com.inquestdevops:WarblerPublishGradlePlugin:1.0.+"
     }
 }
 
+repositories {
+    maven {
+        url "http://repo.wilsonsinquest.com/nexus/content/repositories/releases/"
+    }
+    mavenCentral()
 
+}
 
 apply plugin: "project.gopherjs"
 apply plugin: "project.go"
-apply plugin: "facet.docker"
+apply plugin: "publish.docker"
 
 task copyWebAssets(type: Copy) {
     from "${projectDir}/assets"
@@ -47,14 +53,4 @@ task copyWebAssets(type: Copy) {
 tasks.assembleGoJs.dependsOn("copyWebAssets")
 tasks.assembleDockerImage.dependsOn(["copyWebAssets", "assembleGolinuxamd64"])
 tasks.assembleDockerImageRemote.dependsOn(["copyWebAssets", "assembleGolinuxamd64"])
-//
-//task configureZip {
-//    finalizedBy distZip
-//    doLast {
-//        distZip.archiveName = "${moduleName}.zip"
-//        startScripts.applicationName = "${moduleName}"
-//    }
-//}
-//
-//
-//release.dependsOn "configureZip"
+
