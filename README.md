@@ -23,8 +23,8 @@ How To Use This Template
 ## To Checkout
 
 ```
-project module checkout --name GodsAgesWebApp --majorVersion 1.0
-cd modules/GodsAgesWebApp
+project module checkout --name ModuleName --majorVersion 1.0
+cd modules/ModuleName
 git submodule update --init --recursive
 
 ```

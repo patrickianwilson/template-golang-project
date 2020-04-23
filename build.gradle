@@ -7,7 +7,7 @@ if (System.getenv("BUILD_NUMBER") != null) {
 
 ext {
     mainJsPackage="github.com/patrickianwilson/client"
-    mainPackage = "github.com/patrickianwilson/server"
+//    mainPackage = "github.com/patrickianwilson/server"
     platformTargets = ["linux:amd64"]
 
     moduleName = "template-golang-project"  //changeme!
@@ -42,7 +42,6 @@ repositories {
 
 apply plugin: "project.gopherjs"
 apply plugin: "project.go"
-apply plugin: "publish.docker"
 
 task copyWebAssets(type: Copy) {
     from "${projectDir}/assets"
@@ -51,6 +50,4 @@ task copyWebAssets(type: Copy) {
 }
 
 tasks.assembleGoJs.dependsOn("copyWebAssets")
-tasks.assembleDockerImage.dependsOn(["copyWebAssets", "assembleGolinuxamd64"])
-tasks.assembleDockerImageRemote.dependsOn(["copyWebAssets", "assembleGolinuxamd64"])
 
