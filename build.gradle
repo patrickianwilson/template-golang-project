@@ -1,49 +1,55 @@
-buildscript {
-    repositories {
-        maven {
-            url "http://repository.inquestdevops.com/repository/inquest-oss-releases/"
-        }
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-        mavenCentral()
-        mavenLocal()
-    }
-    dependencies {
-        classpath "com.inquestdevops:WarblerBuildGradlePlugin:1.0.+"
-        classpath "com.inquestdevops:WarblerPublishGradlePlugin:1.0.+"
-    }
-}
-
 ext {
     moduleName = "template-golang-project" //change me!!
+    rootPackage = ""
     libPath = "github.com/InquestDevops/" //change me!!
+    platformTargets = ["linux:amd64","darwin:amd64"]
     testPackages = [] //change me!
     projectType = "copySrc"
 }
-
-apply plugin: "project.go"
-apply plugin: "publish.maven"
-
-//these NEED to be defined AFTER the project.go plugin
 project.version = 'dev.1'
 project.group = "com.github.patrickianwilson"
 
-if (System.getenv("BUILD_NUMBER") != null) {
-    def majorVersion = "1.0" //eventually override with a lookup
-    def buildStream = "0"
-    project.version = "${majorVersion}.${buildStream}.${System.getenv("BUILD_NUMBER")}"
-}
-
-repositories {
-    maven {
-        url "http://repository.inquestdevops.com/repository/inquest-oss-releases/"
+buildscript {
+    repositories {
+        maven {
+            name = 'mavenInternal'
+            url "https://maven.pkg.jetbrains.space/inquest/p/buildtools/gradle-plugins-internal"
+            credentials {
+                username = spaceUsername
+                password = spacePassword
+            }
+        }
+        mavenCentral()
     }
-    mavenCentral()
-    mavenLocal()
+    dependencies {
+        classpath "com.inquestdevops:WarblerBuildGradlePlugin:1.0.+"
+    }
+}
+project.apply plugin: "maven-publish"
+project.tasks.maybeCreate("release")
+apply plugin: "project.go"
+publishing {
+    publications {
+        Library(MavenPublication) {
+            artifactId "${project.ext.moduleName}"
+            artifact packageSrcLib
+        }
+    }
+    repositories {
+        maven {
+            name = 'mavenInternal'
+            url "https://maven.pkg.jetbrains.space/inquest/p/buildtools/build-tools"
+            credentials {
+                username = spaceUsername
+                password = spacePassword
+            }
+        }
+        mavenLocal()
+    }
 }
 
-dependencies {
-
+if (project.version != "dev.1") {
+    project.tasks.release.dependsOn("publishAllPublicationsToMavenInternalRepository")
+} else {
+    project.tasks.release.dependsOn("publishToMavenLocal")
 }
-
