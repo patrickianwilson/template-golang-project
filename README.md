@@ -1,6 +1,13 @@
 How To Use This Template
 ========================
 
+To customize:
+
+1. Update build.gradle file and replace the `#Change Me` items (moduleName)
+2. Update .teamcity/settings.kts to update the deploy script to reference the new binary name
+
+
+
 ## Local Developer Setup
 
 This template is designed to be a starting point for GoLang development.  

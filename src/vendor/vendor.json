@@ -92,6 +92,6 @@
 			"revision": "5f2a59506353b8d5ba8cbbcd9f3c1f41f1eaf079",
 			"revisionTime": "2019-08-28T20:17:10Z"
 		}
-	]
+	],
+	"rootPath": "/home/pwilson/Workspaces/Templates/modules/template-golang-project/src"
 }
-
