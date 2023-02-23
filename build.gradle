@@ -21,7 +21,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath "com.inquestdevops:WarblerBuildGradlePlugin:dev.1"
+        classpath "com.inquestdevops:WarblerBuildGradlePlugin:1.0.+"
     }
 }
 project.apply plugin: "maven-publish"
