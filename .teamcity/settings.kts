@@ -43,7 +43,6 @@ object BuildConstants{
 project {
 
     buildType(BuildAndInternalPublish)
-    buildType(CLIRelease)
 }
 
 object BuildAndInternalPublish : BuildType({
@@ -87,67 +86,3 @@ object BuildAndInternalPublish : BuildType({
     }
 })
 
-object CLIRelease : BuildType({
-    name = "Release CLI"
-
-    artifactRules = "**/* => deploy_artifacts"
-    maxRunningBuilds = 1
-    type = BuildTypeSettings.Type.DEPLOYMENT
-    enablePersonalBuilds = false
-    steps {
-
-        script {
-            name = "CLI Release"
-            scriptContent = """
-                echo "Environment For Build Num: ${'$'}{BUILD_NUMBER}"
-                env
-                
-                echo "Current Directory Contents"
-                ls -al
-                                    
-                echo "Authenticate GCloud"
-                gcloud auth activate-service-account --key-file ${'$'}GOOGLE_APPLICATION_CREDENTIALS
-                                    
-                echo "GCloud Tool Config"
-                gcloud config list
-                
-                gsutil cp  darwinamd64/bin/cassius gs://downloads-wilsonsinquest-com/cassius/latest/macosx/cassius
-                gsutil acl ch -u AllUsers:R gs://downloads-wilsonsinquest-com/cassius/latest/macosx/cassius
-                
-                gsutil cp  linuxamd64/bin/cassius gs://downloads-wilsonsinquest-com/cassius/latest/linux/cassius
-                gsutil acl ch -u AllUsers:R gs://downloads-wilsonsinquest-com/cassius/latest/linux/cassius
-                
-            """.trimIndent()
-            dockerImage = "inquest.registry.jetbrains.space/p/buildtools/buildimages/buildimage:latest"
-            dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
-            dockerPull = true
-        }
-    }
-
-    triggers {
-        finishBuildTrigger {
-            buildType = "${BuildAndInternalPublish.id}"
-            successfulOnly = true
-        }
-    }
-    features {
-        dockerSupport {
-            loginToRegistry = on {
-                dockerRegistryId = "PROJECT_EXT_5"
-            }
-        }
-    }
-
-    dependencies {
-        dependency(BuildAndInternalPublish) {
-            snapshot {
-                onDependencyFailure = FailureAction.CANCEL
-                onDependencyCancel = FailureAction.CANCEL
-            }
-
-            artifacts {
-                artifactRules = "build_artifacts/**"
-            }
-        }
-    }
-})

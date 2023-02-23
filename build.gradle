@@ -1,7 +1,7 @@
 ext {
     moduleName = "template-golang-project" //change me!!
-    mainPackage = "github.com/patrickianwilson/cli/hello"
-    platformTargets = ["linux:amd64","darwin:amd64"]
+    mainPackage = "github.com/patrickianwilson/web"
+    platformTargets = ["js:wasm"]
     testPackages = [] //change me!
 }
 project.version = 'dev.1'
@@ -18,19 +18,35 @@ buildscript {
             }
         }
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
-        classpath "com.inquestdevops:WarblerBuildGradlePlugin:1.0.+"
+        classpath "com.inquestdevops:WarblerBuildGradlePlugin:dev.1"
     }
 }
 project.apply plugin: "maven-publish"
 project.tasks.maybeCreate("release")
 apply plugin: "project.go"
+
+project.configurations {
+    wasm
+}
+//bundle the WASM into a zip
+def taskName = "packageWasm"
+def packageName = project.ext.mainPackage.split("/").last()
+project.task([type: Zip], taskName, {
+    from "${project.buildDir}/jswasm/bin"
+    include "**/*"
+})
+project.artifacts {
+    wasm project.tasks[taskName]
+}
+
 publishing {
     publications {
         Library(MavenPublication) {
             artifactId "${project.ext.moduleName}"
-            artifact packageSrcLib
+            artifact packageWasm
         }
     }
     repositories {
@@ -45,6 +61,8 @@ publishing {
         mavenLocal()
     }
 }
+
+project.tasks.pkg.dependsOn(taskName)
 
 if (project.version != "dev.1") {
     project.tasks.release.dependsOn("publishAllPublicationsToMavenInternalRepository")
