@@ -1,7 +1,6 @@
 ext {
     moduleName = "template-golang-project" //change me!!
     rootPackage = ""
-    libPath = "github.com/InquestDevops/" //change me!!
     platformTargets = ["linux:amd64","darwin:amd64"]
     testPackages = [] //change me!
     projectType = "copySrc"
@@ -48,8 +47,6 @@ publishing {
     }
 }
 
-if (project.version != "dev.1") {
-    project.tasks.release.dependsOn("publishAllPublicationsToMavenInternalRepository")
-} else {
+if (project.version == "dev.1") {
     project.tasks.release.dependsOn("publishToMavenLocal")
 }
