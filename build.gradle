@@ -38,6 +38,7 @@ project.task([type: Zip], taskName, {
     from "${project.buildDir}/jswasm/bin"
     include "**/*"
 })
+project.tasks[taskName].dependsOn("copyGoJsShim")
 project.artifacts {
     wasm project.tasks[taskName]
 }
@@ -63,6 +64,15 @@ publishing {
 }
 
 project.tasks.pkg.dependsOn(taskName)
+
+project.task([type: Exec, dependsOn: ["copyDeps"]], "copyGoJsShim", {
+    //this task will copy the Web Assembly Import Object from the GOROOT folder into the output location
+    commandLine 'cp', "\$(go env GOROOT)/misc/wasm/wasm_exec.js", "$project.buildDir/jswasm/bin"
+
+    inputs.dir "$project.projectDir/src"
+    outputs.dir "$project.buildDir/jswasm/bin"
+
+})
 
 if (project.version != "dev.1") {
     project.tasks.release.dependsOn("publishAllPublicationsToMavenInternalRepository")
