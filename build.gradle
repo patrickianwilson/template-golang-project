@@ -74,8 +74,7 @@ project.task([type: Exec, dependsOn: ["copyDeps"]], "copyGoJsShim", {
 
 })
 
-if (project.version != "dev.1") {
-    project.tasks.release.dependsOn("publishAllPublicationsToMavenInternalRepository")
-} else {
+
+if (project.version == "dev.1") {
     project.tasks.release.dependsOn("publishToMavenLocal")
 }

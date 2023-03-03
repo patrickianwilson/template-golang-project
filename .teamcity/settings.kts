@@ -42,20 +42,20 @@ object BuildConstants{
 
 project {
 
-    buildType(BuildAndInternalPublish)
+    buildType(Build)
+    buildType(Release)
 }
 
-object BuildAndInternalPublish : BuildType({
-    name = "Build and Internal Publish"
+object Build : BuildType({
+    name = "Build"
     artifactRules = "build/**/* => build_artifacts"
-
     vcs {
         root(DslContext.settingsRoot)
     }
 
     steps {
         gradle {
-            tasks = "clean release"
+            tasks = "release"
             useGradleWrapper = false
             dockerImagePlatform = GradleBuildStep.ImagePlatform.Linux
             dockerPull = true
@@ -86,3 +86,48 @@ object BuildAndInternalPublish : BuildType({
     }
 })
 
+object Release : BuildType({
+    name = "Release"
+    maxRunningBuilds = 1
+    type = BuildTypeSettings.Type.DEPLOYMENT
+    enablePersonalBuilds = false
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        gradle {
+            tasks = "publishAllPublicationsToMavenInternalRepository"
+            useGradleWrapper = false
+            dockerImagePlatform = GradleBuildStep.ImagePlatform.Linux
+            dockerImage = "inquest.registry.jetbrains.space/p/buildtools/buildimages/buildimage:latest"
+        }
+    }
+
+    triggers {
+        finishBuildTrigger {
+            buildType = "${Build.id}"
+            successfulOnly = true
+        }
+    }
+    features {
+        dockerSupport {
+            loginToRegistry = on {
+                dockerRegistryId = "PROJECT_EXT_5"
+            }
+        }
+    }
+
+    dependencies {
+        dependency(Build) {
+            snapshot {
+                onDependencyFailure = FailureAction.CANCEL
+                onDependencyCancel = FailureAction.CANCEL
+            }
+
+            artifacts {
+                artifactRules = "build_artifacts/**"
+            }
+        }
+    }
+})
