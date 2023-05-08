@@ -1,5 +1,5 @@
 ext {
-    moduleName = "template-golang-project" //change me!!
+    moduleName = "%%{{ModuleName}}%%" //change me!!
     rootPackage = ""
     platformTargets = ["linux:amd64","darwin:amd64"]
     testPackages = [] //change me!
