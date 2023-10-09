@@ -39,6 +39,7 @@ project.task([type: Zip], taskName, {
     include "**/*"
 })
 project.tasks[taskName].dependsOn("copyGoJsShim")
+project.tasks[taskName].dependsOn("assembleGo")
 project.artifacts {
     wasm project.tasks[taskName]
 }
