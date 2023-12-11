@@ -24,5 +24,10 @@ _testmain.go
 *.prof
 
 .idea/
-*.iml
+*.
+
+/.cache
+/build
+/src/vendor
+
 
